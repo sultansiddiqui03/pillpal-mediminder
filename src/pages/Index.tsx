@@ -9,7 +9,7 @@ import { Plus, Pill, Calendar, BarChart3 } from 'lucide-react';
 
 const Index = () => {
   const [showAddForm, setShowAddForm] = useState(false);
-  const { medicines, addMedicine, deleteMedicine, recordIntake } = useMedicines();
+  const { medicines, intakes, addMedicine, deleteMedicine, recordIntake } = useMedicines();
 
   const handleAddMedicine = (medicineData: any) => {
     addMedicine(medicineData);
@@ -54,6 +54,7 @@ const Index = () => {
             <TabsContent value="timeline" className="space-y-6">
               <DailyTimeline 
                 medicines={medicines}
+                intakes={intakes}
                 onRecordIntake={recordIntake}
               />
             </TabsContent>

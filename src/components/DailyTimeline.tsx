@@ -1,16 +1,18 @@
 import { useMemo } from 'react';
-import { Medicine, ScheduledMedicine } from '@/types/medicine';
+import { Medicine, MedicineIntake, ScheduledMedicine } from '@/types/medicine';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Check, X, Clock, AlertTriangle } from 'lucide-react';
 
+
 interface DailyTimelineProps {
   medicines: Medicine[];
+  intakes: MedicineIntake[];
   onRecordIntake: (medicineId: string, scheduledTime: string, status: 'taken' | 'skipped' | 'delayed') => void;
 }
 
-export const DailyTimeline = ({ medicines, onRecordIntake }: DailyTimelineProps) => {
+export const DailyTimeline = ({ medicines, intakes, onRecordIntake }: DailyTimelineProps) => {
   const generateTimesForMedicine = (medicine: Medicine): string[] => {
     switch (medicine.frequency) {
       case 'once-daily':
@@ -45,18 +47,26 @@ export const DailyTimeline = ({ medicines, onRecordIntake }: DailyTimelineProps)
     medicines.forEach(medicine => {
       const times = generateTimesForMedicine(medicine);
       times.forEach(time => {
+        // Check if there's an existing intake for this medicine and time today
+        const existingIntake = intakes.find(intake => 
+          intake.medicineId === medicine.id && 
+          intake.scheduledTime === time && 
+          intake.date === today
+        );
+
         schedule.push({
           medicineId: medicine.id,
           medicine,
           scheduledTime: time,
-          status: 'pending'
+          status: existingIntake?.status || 'pending',
+          intakeId: existingIntake?.id
         });
       });
     });
 
     // Sort by time
     return schedule.sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime));
-  }, [medicines]);
+  }, [medicines, intakes]);
 
   const getCurrentTime = () => {
     const now = new Date();

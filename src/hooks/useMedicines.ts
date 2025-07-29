@@ -70,6 +70,16 @@ export const useMedicines = () => {
       notes
     };
     saveIntakes([...intakes, intake]);
+    
+    // Update inventory if medicine was taken
+    if (status === 'taken') {
+      const updatedMedicines = medicines.map(med => 
+        med.id === medicineId 
+          ? { ...med, currentStock: Math.max(0, med.currentStock - 1) }
+          : med
+      );
+      saveMedicines(updatedMedicines);
+    }
   };
 
   return {

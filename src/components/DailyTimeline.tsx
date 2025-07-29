@@ -11,26 +11,6 @@ interface DailyTimelineProps {
 }
 
 export const DailyTimeline = ({ medicines, onRecordIntake }: DailyTimelineProps) => {
-  const todaySchedule = useMemo(() => {
-    const today = new Date().toISOString().split('T')[0];
-    const schedule: ScheduledMedicine[] = [];
-
-    medicines.forEach(medicine => {
-      const times = generateTimesForMedicine(medicine);
-      times.forEach(time => {
-        schedule.push({
-          medicineId: medicine.id,
-          medicine,
-          scheduledTime: time,
-          status: 'pending'
-        });
-      });
-    });
-
-    // Sort by time
-    return schedule.sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime));
-  }, [medicines]);
-
   const generateTimesForMedicine = (medicine: Medicine): string[] => {
     switch (medicine.frequency) {
       case 'once-daily':
@@ -57,6 +37,26 @@ export const DailyTimeline = ({ medicines, onRecordIntake }: DailyTimelineProps)
         return [];
     }
   };
+
+  const todaySchedule = useMemo(() => {
+    const today = new Date().toISOString().split('T')[0];
+    const schedule: ScheduledMedicine[] = [];
+
+    medicines.forEach(medicine => {
+      const times = generateTimesForMedicine(medicine);
+      times.forEach(time => {
+        schedule.push({
+          medicineId: medicine.id,
+          medicine,
+          scheduledTime: time,
+          status: 'pending'
+        });
+      });
+    });
+
+    // Sort by time
+    return schedule.sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime));
+  }, [medicines]);
 
   const getCurrentTime = () => {
     const now = new Date();

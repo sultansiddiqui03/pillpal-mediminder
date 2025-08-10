@@ -26,7 +26,7 @@ export const DailyTimeline = ({ medicines, intakes, onRecordIntake }: DailyTimel
         return ['08:00', '12:00', '16:00', '20:00'];
       case 'custom-times':
         return medicine.customTimes || [];
-      case 'interval-hours':
+      case 'interval-hours': {
         // For interval-based, calculate times starting from 8 AM
         const times: string[] = [];
         let startHour = 8;
@@ -36,6 +36,7 @@ export const DailyTimeline = ({ medicines, intakes, onRecordIntake }: DailyTimel
           startHour += interval;
         }
         return times;
+      }
       default:
         return [];
     }

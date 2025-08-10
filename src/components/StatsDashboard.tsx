@@ -83,7 +83,7 @@ function getDateRange(days: number): string[] {
 function toCSV(rows: Array<Record<string, string | number | null | undefined>>): string {
   if (!rows.length) return ''
   const headers = Object.keys(rows[0])
-  const escape = (val: any) => {
+  const escape = (val: unknown): string => {
     if (val === null || val === undefined) return ''
     const s = String(val)
     if (/[",\n]/.test(s)) return `"${s.replace(/"/g, '""')}"`

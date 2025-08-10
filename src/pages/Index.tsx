@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Medicine } from '@/types/medicine';
 import { useMedicines } from '@/hooks/useMedicines';
 import { AddMedicineForm } from '@/components/AddMedicineForm';
 import { MedicineList } from '@/components/MedicineList';
@@ -13,7 +14,7 @@ const Index = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const { medicines, intakes, addMedicine, deleteMedicine, recordIntake } = useMedicines();
 
-  const handleAddMedicine = (medicineData: any) => {
+  const handleAddMedicine = (medicineData: Omit<Medicine, 'id' | 'createdAt'>) => {
     addMedicine(medicineData);
     setShowAddForm(false);
   };

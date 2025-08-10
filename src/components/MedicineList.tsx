@@ -4,6 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Pill, AlertTriangle, Calendar, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useCallback, useMemo, useState } from 'react';
+import { getDragData, setDragData } from './drag';
 
 interface MedicineListProps {
   medicines: Medicine[];
@@ -13,6 +15,8 @@ interface MedicineListProps {
 }
 
 export const MedicineList = ({ medicines, onEditMedicine, onDeleteMedicine, onReorderMedicines }: MedicineListProps) => {
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
+
   const getFrequencyDisplay = (medicine: Medicine) => {
     switch (medicine.frequency) {
       case 'once-daily':
@@ -36,6 +40,30 @@ export const MedicineList = ({ medicines, onEditMedicine, onDeleteMedicine, onRe
     return medicine.currentStock <= medicine.lowStockAlert;
   };
 
+  const orderedIds = useMemo(() => medicines.map(m => m.id), [medicines]);
+
+  const onDragStart = useCallback((e: React.DragEvent, id: string) => {
+    setDragData(e, id);
+  }, []);
+
+  const onDragOver = useCallback((e: React.DragEvent, overId: string) => {
+    e.preventDefault();
+    setDragOverId(overId);
+  }, []);
+
+  const onDrop = useCallback((e: React.DragEvent, targetId: string) => {
+    e.preventDefault();
+    const sourceId = getDragData(e);
+    setDragOverId(null);
+    if (!sourceId || sourceId === targetId) return;
+    const currentOrder = [...orderedIds];
+    const fromIdx = currentOrder.indexOf(sourceId);
+    const toIdx = currentOrder.indexOf(targetId);
+    if (fromIdx === -1 || toIdx === -1) return;
+    currentOrder.splice(toIdx, 0, currentOrder.splice(fromIdx, 1)[0]);
+    onReorderMedicines?.(currentOrder);
+  }, [onReorderMedicines, orderedIds]);
+
   if (medicines.length === 0) {
     return (
       <div className="text-center py-12">
@@ -56,9 +84,13 @@ export const MedicineList = ({ medicines, onEditMedicine, onDeleteMedicine, onRe
             variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } }}
             whileHover={{ scale: 1.01 }}
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+            draggable
+            onDragStart={(e) => onDragStart(e, medicine.id)}
+            onDragOver={(e) => onDragOver(e, medicine.id)}
+            onDrop={(e) => onDrop(e, medicine.id)}
           >
-            <Card className="relative bg-card/60 backdrop-blur-sm">
-              <CardHeader className="pb-3">
+            <Card className={`relative bg-card/60 backdrop-blur-sm ${dragOverId === medicine.id ? 'ring-2 ring-primary' : ''}`}>
+              <CardHeader className="pb-3 cursor-grab active:cursor-grabbing">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <CardTitle className="text-lg">{medicine.name}</CardTitle>

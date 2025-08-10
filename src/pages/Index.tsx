@@ -11,7 +11,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 
 const Index = () => {
   const [showAddForm, setShowAddForm] = useState(false);
-  const { medicines, intakes, addMedicine, deleteMedicine, recordIntake } = useMedicines();
+  const { medicines, intakes, addMedicine, deleteMedicine, recordIntake, reorderMedicines } = useMedicines();
 
   const handleAddMedicine = (medicineData: any) => {
     addMedicine(medicineData);
@@ -76,6 +76,7 @@ const Index = () => {
               <MedicineList 
                 medicines={medicines}
                 onDeleteMedicine={deleteMedicine}
+                onReorderMedicines={(ids) => reorderMedicines(ids)}
               />
             </TabsContent>
 

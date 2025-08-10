@@ -1,11 +1,10 @@
 import { useMemo, useState } from "react";
 import { Medicine, MedicineIntake } from "@/types/medicine";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { computeSeries, computePerMedicineAdherence, buildExpectedForDate } from "@/lib/stats";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line, LineChart, Legend, PieChart, Pie, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line, Legend, PieChart, Pie, Cell } from "recharts";
 import { motion } from "framer-motion";
 
 const COLORS = ["#6d6df6", "#22c55e", "#ef4444", "#06b6d4", "#a855f7", "#f59e0b"]; // primary, green, red, cyan, violet, amber

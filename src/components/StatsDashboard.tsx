@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Pie, PieChart, PolarAngleAxis, RadialBar, RadialBarChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from 'recharts'
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, Pie, PieChart, PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import { motion } from 'framer-motion'
 import { Download, TrendingUp, AlertTriangle, Timer, CheckCircle2, BarChart3 } from 'lucide-react'
 
@@ -272,7 +272,6 @@ export function StatsDashboard({ medicines, intakes }: StatsDashboardProps) {
                     <RadialBarChart innerRadius="70%" outerRadius="100%" data={[{ name: 'Adherence', value: overall.adherence, fill: 'hsl(var(--primary))' }]} startAngle={90} endAngle={-270}>
                       <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
                       <RadialBar dataKey="value" cornerRadius={8} isAnimationActive />
-                      <ReferenceLine angle={90} />
                     </RadialBarChart>
                   </ResponsiveContainer>
                 </div>

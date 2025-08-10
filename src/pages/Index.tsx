@@ -6,6 +6,7 @@ import { DailyTimeline } from '@/components/DailyTimeline';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Plus, Pill, Calendar, BarChart3 } from 'lucide-react';
+import { StatsDashboard } from '@/components/StatsDashboard';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 const Index = () => {
@@ -79,13 +80,7 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="stats" className="space-y-6">
-              <div className="text-center py-12">
-                <BarChart3 className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-medium">Statistics Coming Soon</h3>
-                <p className="text-muted-foreground">
-                  Track your adherence and get insights about your medication habits
-                </p>
-              </div>
+              <StatsDashboard medicines={medicines} intakes={intakes} />
             </TabsContent>
           </Tabs>
         )}

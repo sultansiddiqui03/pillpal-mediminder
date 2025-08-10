@@ -82,12 +82,27 @@ export const useMedicines = () => {
     }
   };
 
+  const reorderMedicines = (orderedIds: string[]) => {
+    const idToMed = new Map(medicines.map(m => [m.id, m] as const));
+    const newOrder: Medicine[] = [];
+    for (const id of orderedIds) {
+      const med = idToMed.get(id);
+      if (med) newOrder.push(med);
+    }
+    // Include any meds not in orderedIds to be safe
+    for (const med of medicines) {
+      if (!orderedIds.includes(med.id)) newOrder.push(med);
+    }
+    saveMedicines(newOrder);
+  };
+
   return {
     medicines,
     intakes,
     addMedicine,
     updateMedicine,
     deleteMedicine,
-    recordIntake
+    recordIntake,
+    reorderMedicines
   };
 };

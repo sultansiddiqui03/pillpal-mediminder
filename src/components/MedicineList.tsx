@@ -9,9 +9,10 @@ interface MedicineListProps {
   medicines: Medicine[];
   onEditMedicine?: (medicine: Medicine) => void;
   onDeleteMedicine?: (id: string) => void;
+  onReorderMedicines?: (orderedIds: string[]) => void;
 }
 
-export const MedicineList = ({ medicines, onEditMedicine, onDeleteMedicine }: MedicineListProps) => {
+export const MedicineList = ({ medicines, onEditMedicine, onDeleteMedicine, onReorderMedicines }: MedicineListProps) => {
   const getFrequencyDisplay = (medicine: Medicine) => {
     switch (medicine.frequency) {
       case 'once-daily':

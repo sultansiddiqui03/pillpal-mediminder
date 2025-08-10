@@ -6,6 +6,7 @@ import { DailyTimeline } from '@/components/DailyTimeline';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Plus, Pill, Calendar, BarChart3 } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const Index = () => {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -18,15 +19,19 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(40%_40%_at_50%_0%,hsl(var(--primary)/0.12),transparent)]" />
       <div className="container mx-auto px-4 py-6">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Pill className="h-8 w-8 text-primary" />
-            MediTrack Reminder
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            Stay on track with your medication schedule
-          </p>
+        <header className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold flex items-center gap-2">
+              <Pill className="h-8 w-8 text-primary" />
+              MediTrack Reminder
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              Stay on track with your medication schedule
+            </p>
+          </div>
+          <ThemeToggle />
         </header>
 
         {showAddForm ? (

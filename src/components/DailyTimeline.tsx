@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Check, X, Clock, AlertTriangle } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 
 interface DailyTimelineProps {
@@ -125,9 +126,15 @@ export const DailyTimeline = ({ medicines, intakes, onRecordIntake }: DailyTimel
         </p>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          {todaySchedule.map((item, index) => (
-            <div key={`${item.medicineId}-${item.scheduledTime}`} className="flex items-center justify-between p-4 border rounded-lg">
+        <motion.div className="space-y-4" initial="hidden" animate="show" variants={{ hidden: {}, show: { transition: { staggerChildren: 0.05 } } }}>
+          {todaySchedule.map((item) => (
+            <motion.div
+              key={`${item.medicineId}-${item.scheduledTime}`}
+              variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } }}
+              whileHover={{ scale: 1.01 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+              className="flex items-center justify-between p-4 border rounded-lg bg-card/50 backdrop-blur-sm"
+            >
               <div className="flex-1">
                 <div className="flex items-center gap-3">
                   <div className="text-lg font-medium">{item.scheduledTime}</div>
@@ -162,9 +169,9 @@ export const DailyTimeline = ({ medicines, intakes, onRecordIntake }: DailyTimel
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </CardContent>
     </Card>
   );
